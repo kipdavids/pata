@@ -244,7 +244,7 @@ export default function Home() {
                   maxLength={24}
                   autoComplete="nickname"
                   placeholder="e.g. Wanjiku"
-                  className="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-emerald-400/60 focus:ring-2 focus:ring-emerald-400/20"
+                  className="w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white outline-none transition placeholder:text-zinc-500 focus:border-emerald-400/60 focus:ring-2 focus:ring-emerald-400/20"
                 />
               </div>
 
@@ -428,12 +428,12 @@ export default function Home() {
             <p className="mt-1 text-[11px] font-semibold text-zinc-300">
               {item.title}
             </p>
-            <p className="text-[10px] text-zinc-600">{item.body}</p>
+            <p className="text-[10px] text-zinc-500">{item.body}</p>
           </div>
         ))}
       </section>
 
-      <footer className="mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-white/5 pt-5 text-[11px] text-zinc-600">
+      <footer className="mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-white/5 pt-5 text-[11px] text-zinc-500">
         <span>PATA · a two-player number hunt</span>
         <span>Timing measured on the server</span>
       </footer>

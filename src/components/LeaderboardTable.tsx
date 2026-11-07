@@ -93,11 +93,11 @@ export default function LeaderboardTable({
             <div className="shrink-0 text-right">
               <p className="font-mono text-xs font-semibold text-emerald-300">
                 {formatMicros(row.total_points)}
-                <span className="ml-0.5 text-[9px] font-normal text-zinc-600">
+                <span className="ml-0.5 text-[9px] font-normal text-zinc-500">
                   s
                 </span>
               </p>
-              <p className="text-[10px] uppercase tracking-wider text-zinc-600">
+              <p className="text-[10px] uppercase tracking-wider text-zinc-500">
                 {played} {played === 1 ? "match" : "matches"}
               </p>
             </div>

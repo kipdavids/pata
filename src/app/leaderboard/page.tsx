@@ -250,7 +250,7 @@ export default function LeaderboardPage() {
                               >
                                 {game.player1_name}
                               </span>
-                              <span className="mx-1.5 text-[10px] uppercase tracking-wider text-zinc-600">
+                              <span className="mx-1.5 text-[10px] uppercase tracking-wider text-zinc-500">
                                 vs
                               </span>
                               <span
@@ -274,7 +274,7 @@ export default function LeaderboardPage() {
                             <span className="block">
                               {formatMicros(game.player1_score)}
                             </span>
-                            <span className="block text-zinc-600">
+                            <span className="block text-zinc-500">
                               {formatMicros(game.player2_score)}
                             </span>
                           </p>
@@ -289,7 +289,7 @@ export default function LeaderboardPage() {
         </>
       )}
 
-      <footer className="mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-white/5 pt-5 text-[11px] text-zinc-600">
+      <footer className="mt-auto flex flex-wrap items-center justify-between gap-2 border-t border-white/5 pt-5 text-[11px] text-zinc-500">
         <Link href="/" className="transition hover:text-zinc-300">
           ← Back to lobby
         </Link>
