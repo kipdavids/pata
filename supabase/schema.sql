@@ -337,12 +337,20 @@ left join public.matches m on (m.player1 = p.id or m.player2 = p.id)
 group by p.id, p.display_name, p.avatar_url;
 
 -- ---------------------------------------------------------------- storage (avatars)
--- Public bucket for user avatars. Uploads are scoped to the owner's own folder
--- ({user_id}/...) so users can only write their own avatar.
-insert into storage.buckets (id, name, public)
-values ('avatars', 'avatars', true)
-on conflict (id) do nothing;
+-- Public bucket for user avatars. Wrapped so a missing storage schema or an
+-- already-existing bucket never aborts the whole script.
+do $$
+begin
+  insert into storage.buckets (id, name, public)
+  values ('avatars', 'avatars', true)
+  on conflict (id) do nothing;
+exception
+  when others then null;
+end
+$$;
 
+-- Policies use a simple path prefix check (avatars are stored as
+-- {user_id}/...) so they do not depend on storage helper functions.
 drop policy if exists "avatars public read" on storage.objects;
 create policy "avatars public read" on storage.objects
   for select to anon, authenticated
@@ -353,7 +361,7 @@ create policy "avatars owner write" on storage.objects
   for insert to authenticated
   with check (
     bucket_id = 'avatars'
-    and (storage.foldername(name))[1] = auth.uid()::text
+    and name like auth.uid()::text || '/%'
   );
 
 drop policy if exists "avatars owner update" on storage.objects;
@@ -361,7 +369,7 @@ create policy "avatars owner update" on storage.objects
   for update to authenticated
   using (
     bucket_id = 'avatars'
-    and (storage.foldername(name))[1] = auth.uid()::text
+    and name like auth.uid()::text || '/%'
   );
 
 drop policy if exists "avatars owner delete" on storage.objects;
@@ -369,7 +377,7 @@ create policy "avatars owner delete" on storage.objects
   for delete to authenticated
   using (
     bucket_id = 'avatars'
-    and (storage.foldername(name))[1] = auth.uid()::text
+    and name like auth.uid()::text || '/%'
   );
 -- The game functions bypass RLS by design, so only the server (service role)
 -- may call them. This prevents direct RPC calls from the browser.
