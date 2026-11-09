@@ -74,7 +74,7 @@ export default function NumberGrid({
             style={{ ["--row" as string]: row }}
             className={classes}
           >
-            {value}
+            {String(value).split("").join("\u200b")}
             {isUsed ? (
               <span
                 aria-hidden

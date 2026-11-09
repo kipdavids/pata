@@ -216,6 +216,24 @@ export default function MatchClient({ code }: { code: string }) {
     };
   }, [addReaction, normalized, refresh, userId]);
 
+  // Discourage find-in-page cheating while a hunt is in progress.
+  useEffect(() => {
+    if (!match || match.status !== "active") return;
+    const handler = (event: KeyboardEvent) => {
+      const key = event.key.toLowerCase();
+      if ((event.ctrlKey || event.metaKey) && key === "f") {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      if (key === "f3") {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    };
+    window.addEventListener("keydown", handler, { capture: true });
+    return () => window.removeEventListener("keydown", handler, { capture: true });
+  }, [match?.status]); // eslint-disable-line react-hooks/exhaustive-deps
+
   useEffect(() => {
     return () => {
       if (wrongTimer.current) window.clearTimeout(wrongTimer.current);

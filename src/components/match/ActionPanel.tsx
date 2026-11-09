@@ -78,14 +78,14 @@ export default function ActionPanel({
               <h2 className="font-display mt-1 text-lg font-semibold text-zinc-200">
                 Find{" "}
                 <span className={`font-display text-3xl font-bold ${theme.number}`}>
-                  {targetNumber}
+                  {String(targetNumber).split("").join("\u200b")}
                 </span>
               </h2>
             ) : isChooser ? (
               <h2 className="font-display mt-1 text-lg font-semibold text-zinc-200">
                 You chose{" "}
                 <span className={`font-display text-3xl font-bold ${theme.number}`}>
-                  {targetNumber}
+                  {String(targetNumber).split("").join("\u200b")}
                 </span>
               </h2>
             ) : (
