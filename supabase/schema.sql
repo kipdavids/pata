@@ -311,6 +311,7 @@ end;
 $$;
 
 -- ---------------------------------------------------------------- leaderboard
+drop view if exists public.leaderboard;
 create or replace view public.leaderboard as
 select
   p.id,
