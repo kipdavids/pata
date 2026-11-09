@@ -7,6 +7,7 @@ import type { RealtimeChannel } from "@supabase/supabase-js";
 import HowToPlay from "@/components/HowToPlay";
 import LeaderboardTable from "@/components/LeaderboardTable";
 import SetupNotice from "@/components/SetupNotice";
+import SignInModal from "@/components/SignInModal";
 import SiteHeader from "@/components/SiteHeader";
 import { api, clientErrorMessage, ensureSession } from "@/lib/client/api";
 import { TURN_OPTIONS, type TurnOption } from "@/lib/game";
@@ -20,6 +21,7 @@ const NAME_KEY = "pata:displayName";
 interface OnlineUser {
   userId: string;
   name: string;
+  avatar: string | null;
 }
 
 interface Challenge {
@@ -40,6 +42,8 @@ export default function Home() {
   const [userId, setUserId] = useState<string | null>(null);
   const [onlineUsers, setOnlineUsers] = useState<OnlineUser[]>([]);
   const [challenge, setChallenge] = useState<Challenge | null>(null);
+  const [avatar, setAvatar] = useState<string | null>(null);
+  const [signInOpen, setSignInOpen] = useState(false);
 
   const channelRef = useRef<RealtimeChannel | null>(null);
 
@@ -54,6 +58,24 @@ export default function Home() {
         const session = await ensureSession();
         if (cancelled) return;
         setUserId(session.user.id);
+        try {
+          const profileRes = await fetch("/api/profile", {
+            headers: { Authorization: `Bearer ${session.access_token}` },
+            cache: "no-store",
+          });
+          if (profileRes.ok) {
+            const profilePayload = (await profileRes.json()) as {
+              profile?: { display_name?: string; avatar_url?: string | null };
+            };
+            if (profilePayload.profile?.display_name) {
+              setDisplayName(profilePayload.profile.display_name);
+              localStorage.setItem(NAME_KEY, profilePayload.profile.display_name);
+            }
+            setAvatar(profilePayload.profile?.avatar_url ?? null);
+          }
+        } catch {
+          // Profile is optional.
+        }
         const response = await fetch("/api/leaderboard", { cache: "no-store" });
         if (response.ok) {
           const payload = (await response.json()) as {
@@ -87,8 +109,12 @@ export default function Home() {
         const users: OnlineUser[] = [];
         for (const [key, entries] of Object.entries(state)) {
           if (key === userId) continue;
-          const entry = (entries as { name?: string }[])[0];
-          users.push({ userId: key, name: entry?.name ?? "Player" });
+          const entry = (entries as { name?: string; avatar?: string | null }[])[0];
+          users.push({
+            userId: key,
+            name: entry?.name ?? "Player",
+            avatar: entry?.avatar ?? null,
+          });
         }
         setOnlineUsers(users);
       };
@@ -116,6 +142,7 @@ export default function Home() {
           if (status === "SUBSCRIBED") {
             void channel?.track({
               name: displayName.trim() || "Guest",
+              avatar,
               at: Date.now(),
             });
           }
@@ -136,19 +163,51 @@ export default function Home() {
         }
       }
     };
-  }, [userId, displayName]);
+  }, [userId, displayName, avatar]);
 
   // Keep presence name in sync when the display name changes.
   useEffect(() => {
     const channel = channelRef.current;
     if (!channel || !userId) return;
-    void channel.track({ name: displayName.trim() || "Guest", at: Date.now() });
-  }, [displayName, userId]);
+    void channel.track({
+      name: displayName.trim() || "Guest",
+      avatar,
+      at: Date.now(),
+    });
+  }, [displayName, userId, avatar]);
 
   function rememberName() {
     const clean = displayName.trim();
     if (clean.length >= 2) localStorage.setItem(NAME_KEY, clean);
     return clean;
+  }
+
+  async function handleSignedIn() {
+    try {
+      const session = await ensureSession();
+      setUserId(session.user.id);
+      const profileRes = await fetch("/api/profile", {
+        headers: { Authorization: `Bearer ${session.access_token}` },
+        cache: "no-store",
+      });
+      if (profileRes.ok) {
+        const profilePayload = (await profileRes.json()) as {
+          profile?: { display_name?: string; avatar_url?: string | null };
+        };
+        if (profilePayload.profile?.display_name) {
+          setDisplayName(profilePayload.profile.display_name);
+          localStorage.setItem(NAME_KEY, profilePayload.profile.display_name);
+        }
+        setAvatar(profilePayload.profile?.avatar_url ?? null);
+      }
+      const response = await fetch("/api/leaderboard", { cache: "no-store" });
+      if (response.ok) {
+        const payload = (await response.json()) as { leaderboard?: LeaderboardRow[] };
+        setLeaderboard(payload.leaderboard ?? []);
+      }
+    } catch {
+      // ignore
+    }
   }
 
   function pickTurns(option: TurnOption) {
@@ -357,6 +416,19 @@ export default function Home() {
                 </span>
               </div>
 
+              <div className="mb-4 flex items-center justify-between">
+                <span className="text-[10px] text-zinc-500">
+                  Playing as a guest
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setSignInOpen(true)}
+                  className="text-[11px] font-semibold text-cyan-300 transition hover:text-cyan-200"
+                >
+                  Sign in →
+                </button>
+              </div>
+
               <label
                 htmlFor="display-name"
                 className="mt-5 block text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-500"
@@ -364,8 +436,13 @@ export default function Home() {
                 Display name
               </label>
               <div className="mt-2 flex items-center gap-2.5">
-                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-emerald-300 to-cyan-400 text-base font-black text-emerald-950 shadow-[0_0_20px_rgba(52,211,153,0.35)]">
-                  {initial}
+                <span className="grid h-11 w-11 shrink-0 place-items-center overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-300 to-cyan-400 text-base font-black text-emerald-950 shadow-[0_0_20px_rgba(52,211,153,0.35)]">
+                  {avatar ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={avatar} alt="" className="h-full w-full object-cover" />
+                  ) : (
+                    initial
+                  )}
                 </span>
                 <input
                   id="display-name"
@@ -499,8 +576,13 @@ export default function Home() {
                       className="flex items-center justify-between gap-3 rounded-2xl border border-white/[0.06] bg-white/[0.03] px-3 py-2.5"
                     >
                       <span className="flex min-w-0 items-center gap-2">
-                        <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-cyan-300 to-cyan-500 text-xs font-black text-cyan-950">
-                          {user.name.charAt(0).toUpperCase() || "?"}
+                        <span className="grid h-8 w-8 shrink-0 place-items-center overflow-hidden rounded-xl bg-gradient-to-br from-cyan-300 to-cyan-500 text-xs font-black text-cyan-950">
+                          {user.avatar ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={user.avatar} alt="" className="h-full w-full object-cover" />
+                          ) : (
+                            user.name.charAt(0).toUpperCase() || "?"
+                          )}
                         </span>
                         <span className="truncate text-sm font-semibold text-white">
                           {user.name}
@@ -656,6 +738,11 @@ export default function Home() {
         <span>PATA · a two-player number hunt</span>
         <span>Timing measured on the server</span>
       </footer>
+      <SignInModal
+        open={signInOpen}
+        onClose={() => setSignInOpen(false)}
+        onSignedIn={handleSignedIn}
+      />
     </main>
   );
 }

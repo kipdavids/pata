@@ -41,6 +41,7 @@ export interface TurnRow {
 export interface LeaderboardRow {
   id: string;
   display_name: string;
+  avatar_url?: string | null;
   matches_played: number;
   wins: number;
   draws: number;
@@ -65,4 +66,6 @@ export interface MatchStateResponse {
   match: MatchRow;
   serverNow: string;
   lastTurn?: TurnRow | null;
+  player1Avatar?: string | null;
+  player2Avatar?: string | null;
 }

@@ -52,6 +52,8 @@ export default function MatchClient({ code }: { code: string }) {
   const [reactions, setReactions] = useState<FloatingReaction[]>([]);
   const [onlineCount, setOnlineCount] = useState(1);
   const [celebrate, setCelebrate] = useState(false);
+  const [player1Avatar, setPlayer1Avatar] = useState<string | null>(null);
+  const [player2Avatar, setPlayer2Avatar] = useState<string | null>(null);
 
   const wrongTimer = useRef<number | null>(null);
   const toastTimer = useRef<number | null>(null);
@@ -75,6 +77,8 @@ export default function MatchClient({ code }: { code: string }) {
   const applyState = useCallback((payload: MatchStateResponse) => {
     setMatch(payload.match);
     setClockOffset(toMillis(payload.serverNow) - Date.now());
+    if (payload.player1Avatar !== undefined) setPlayer1Avatar(payload.player1Avatar ?? null);
+    if (payload.player2Avatar !== undefined) setPlayer2Avatar(payload.player2Avatar ?? null);
     setError(null);
 
     const turn = payload.lastTurn ?? null;
@@ -543,6 +547,7 @@ export default function MatchClient({ code }: { code: string }) {
           <div className="flex gap-2">
             <PlayerCard
               name={match.player1_name}
+              avatar={player1Avatar}
               score={match.player1_score}
               role={roleFor(match.player1)}
               isMe={Boolean(isPlayer1)}
@@ -551,6 +556,7 @@ export default function MatchClient({ code }: { code: string }) {
             />
             <PlayerCard
               name={match.player2_name ?? "Opponent"}
+              avatar={player2Avatar}
               score={match.player2_score}
               role={match.player2 ? roleFor(match.player2) : "Waiting"}
               isMe={Boolean(isPlayer2)}

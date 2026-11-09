@@ -5,6 +5,7 @@ import { formatElapsed } from "@/lib/game";
 
 export default function PlayerCard({
   name,
+  avatar,
   score,
   role,
   isMe,
@@ -12,6 +13,7 @@ export default function PlayerCard({
   tone,
 }: {
   name: string;
+  avatar?: string | null;
   score: number;
   role: string;
   isMe: boolean;
@@ -52,7 +54,15 @@ export default function PlayerCard({
       ) : null}
 
       <div className="flex items-center justify-between gap-1.5">
-        <p className="flex min-w-0 items-center gap-1 truncate text-xs font-semibold text-white">
+        <p className="flex min-w-0 items-center gap-1.5 truncate text-xs font-semibold text-white">
+          {avatar ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={avatar} alt="" className="h-5 w-5 shrink-0 rounded-md object-cover ring-1 ring-white/10" />
+          ) : (
+            <span className="grid h-5 w-5 shrink-0 place-items-center rounded-md bg-white/[0.08] text-[9px] font-bold text-zinc-300">
+              {name.charAt(0).toUpperCase() || "?"}
+            </span>
+          )}
           <span className="truncate">{name}</span>
           {isMe ? (
             <span className="shrink-0 rounded bg-white/10 px-1 py-0.5 text-[8px] font-bold uppercase tracking-wider text-zinc-300">

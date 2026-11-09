@@ -36,10 +36,23 @@ export async function GET(
 
     if (turnError) throw turnError;
 
+    const { data: profiles } = await admin
+      .from("profiles")
+      .select("id, avatar_url")
+      .in("id", [data.player1, data.player2].filter(Boolean) as string[]);
+
+    const avatarMap = new Map(
+      (profiles ?? []).map((p) => [p.id, p.avatar_url]),
+    );
+
     return NextResponse.json({
       match: data,
       lastTurn,
       serverNow: new Date().toISOString(),
+      player1Avatar: avatarMap.get(data.player1) ?? null,
+      player2Avatar: data.player2
+        ? (avatarMap.get(data.player2) ?? null)
+        : null,
     });
   } catch (error) {
     console.error("load match failed", error);
