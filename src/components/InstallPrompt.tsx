@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import LogoMark from "./LogoMark";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -71,9 +72,7 @@ export default function InstallPrompt() {
   return (
     <div className="animate-slide-up fixed inset-x-3 bottom-[calc(var(--safe-bottom)+0.75rem)] z-50 mx-auto max-w-md">
       <div className="glass-strong flex items-center gap-3 rounded-2xl p-3 shadow-arena">
-        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-emerald-400 text-lg font-black text-emerald-950">
-          P
-        </span>
+        <LogoMark plate={false} className="h-11 w-11 shrink-0" title="PATA" />
         <div className="min-w-0 flex-1">
           <p className="text-sm font-semibold text-white">Install PATA</p>
           <p className="text-xs leading-snug text-zinc-400">

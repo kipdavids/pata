@@ -1,5 +1,5 @@
 /* PATA service worker — app-shell caching with an offline fallback. */
-const VERSION = "pata-v1";
+const VERSION = "pata-v2";
 const CACHE = `pata-shell-${VERSION}`;
 const SHELL = [
   "/",

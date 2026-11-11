@@ -69,7 +69,8 @@ export default function SiteHeader() {
         <div className="glass flex items-center justify-between gap-2 rounded-2xl px-2.5 py-2 shadow-arena">
           <Link href="/" className="group flex items-center gap-2.5">
             <LogoMark
-              className="h-9 w-9 shrink-0 rounded-xl shadow-[0_0_24px_rgba(52,211,153,0.35)] transition group-hover:scale-105"
+              plate={false}
+              className="h-9 w-9 shrink-0 drop-shadow-[0_0_8px_rgba(52,211,153,0.45)] transition group-hover:scale-105"
               title="PATA"
             />
             <span className="font-display text-sm font-bold tracking-[0.32em] text-white">

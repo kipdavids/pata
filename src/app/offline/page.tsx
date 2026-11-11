@@ -8,7 +8,11 @@ export const metadata = {
 export default function OfflinePage() {
   return (
     <main className="mx-auto flex min-h-dvh w-full max-w-md flex-1 flex-col items-center justify-center gap-6 px-6 text-center">
-      <LogoMark className="h-20 w-20 rounded-3xl shadow-[0_0_40px_rgba(52,211,153,0.25)]" title="PATA" />
+      <LogoMark
+        plate={false}
+        className="h-24 w-24 drop-shadow-[0_0_28px_rgba(52,211,153,0.35)]"
+        title="PATA"
+      />
       <div className="space-y-2">
         <h1 className="font-display text-2xl font-bold text-white">
           You&apos;re offline

@@ -10,10 +10,12 @@ import { useId } from "react";
 export default function LogoMark({
   className = "",
   reticle = false,
+  plate = true,
   title,
 }: {
   className?: string;
   reticle?: boolean;
+  plate?: boolean;
   title?: string;
 }) {
   const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
@@ -38,6 +40,12 @@ export default function LogoMark({
   const x1 = center + tile + pad;
   const y1 = center + tile + pad;
 
+  // Without the plate the mark sits straight on the dark UI, so the tiles and
+  // the ring need heavier strokes to stay visible at 36px.
+  const tileStroke = plate ? 0.22 : 0.75;
+  const ringStroke = plate ? 0.42 : 1.15;
+  const reticleStroke = plate ? 0.42 : 0.8;
+
   const tiles = [];
   for (let row = 0; row < 3; row += 1) {
     for (let col = 0; col < 3; col += 1) {
@@ -50,9 +58,13 @@ export default function LogoMark({
           width={tile}
           height={tile}
           rx={tile * 0.26}
-          fill="rgba(255,255,255,0.055)"
-          stroke="rgba(255,255,255,0.10)"
-          strokeWidth={0.22}
+          fill={
+            plate ? "rgba(255,255,255,0.055)" : "rgba(255,255,255,0.02)"
+          }
+          stroke={
+            plate ? "rgba(255,255,255,0.10)" : "rgba(255,255,255,0.28)"
+          }
+          strokeWidth={tileStroke}
         />,
       );
     }
@@ -84,20 +96,29 @@ export default function LogoMark({
         </linearGradient>
       </defs>
 
-      <rect width={size} height={size} rx={size * 0.22} fill={`url(#${bgId})`} />
-      <circle
-        cx={size / 2}
-        cy={size / 2}
-        r={board * 0.62}
-        fill={`url(#${haloId})`}
-      />
+      {plate ? (
+        <>
+          <rect
+            width={size}
+            height={size}
+            rx={size * 0.22}
+            fill={`url(#${bgId})`}
+          />
+          <circle
+            cx={size / 2}
+            cy={size / 2}
+            r={board * 0.62}
+            fill={`url(#${haloId})`}
+          />
+        </>
+      ) : null}
       {tiles}
 
       {reticle ? (
         <g
           fill="none"
           stroke="#34d399"
-          strokeWidth={0.42}
+          strokeWidth={reticleStroke}
           strokeLinecap="round"
           strokeOpacity={0.85}
         >
@@ -125,7 +146,7 @@ export default function LogoMark({
         fill="none"
         stroke="#ecfdf5"
         strokeOpacity={0.92}
-        strokeWidth={0.42}
+        strokeWidth={ringStroke}
       />
     </svg>
   );
