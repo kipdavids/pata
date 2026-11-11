@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import HowToPlay from "./HowToPlay";
+import LogoMark from "./LogoMark";
 import ProfileModal from "./ProfileModal";
 import SoundToggle from "./SoundToggle";
 import { ensureSession } from "@/lib/client/api";
@@ -67,10 +68,10 @@ export default function SiteHeader() {
       <header className="sticky top-0 z-40 pt-[calc(var(--safe-top)+0.5rem)] pb-2">
         <div className="glass flex items-center justify-between gap-2 rounded-2xl px-2.5 py-2 shadow-arena">
           <Link href="/" className="group flex items-center gap-2.5">
-            <span className="relative grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-emerald-300 to-emerald-500 text-base font-black text-emerald-950 shadow-[0_0_24px_rgba(52,211,153,0.45)] transition group-hover:scale-105">
-              P
-              <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-cyan-300 ring-2 ring-[#07070b]" />
-            </span>
+            <LogoMark
+              className="h-9 w-9 shrink-0 rounded-xl shadow-[0_0_24px_rgba(52,211,153,0.35)] transition group-hover:scale-105"
+              title="PATA"
+            />
             <span className="font-display text-sm font-bold tracking-[0.32em] text-white">
               PATA
             </span>

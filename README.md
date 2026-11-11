@@ -107,8 +107,11 @@ prompt (Android/Chrome) or **Share → Add to Home Screen** (iOS/Safari).
 npm run icons
 ```
 
-This writes `public/icons/*` plus `src/app/icon.png` and
-`src/app/apple-icon.png`. Re-run it after changing the icon artwork.
+This writes `public/icons/*`, `src/app/icon.png`, `src/app/apple-icon.png`,
+`src/app/favicon.ico` (16/32/48/64) and the upload-ready brand files in
+`public/brand/`. Re-run it after changing the icon artwork. The same mark is
+rendered inline in the header by `src/components/LogoMark.tsx`, so update both
+if the logo changes.
 
 ## How timing works
 
@@ -160,7 +163,8 @@ src/lib/
   server/                      admin client and request auth
 public/
   sw.js                        service worker
-  icons/                       generated PWA icons
+  icons/                       generated PWA icons + favicon
+  brand/                       upload-ready logo PNGs (Product Hunt, stores)
 supabase/schema.sql            database, functions, RLS, realtime
 scripts/generate-icons.mjs     icon generation
 scripts/e2e.mjs                two-player API end-to-end test

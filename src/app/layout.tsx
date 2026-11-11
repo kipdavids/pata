@@ -21,6 +21,12 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   applicationName: "PATA",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ??
+      (process.env.VERCEL_URL
+        ? `https://${process.env.VERCEL_URL}`
+        : "http://localhost:3000"),
+  ),
   title: {
     default: "PATA — Two-Player Number Hunt",
     template: "%s · PATA",
@@ -40,6 +46,7 @@ export const metadata: Metadata = {
     icon: [
       { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
       { url: "/icons/icon-512.png", sizes: "512x512", type: "image/png" },
+      { url: "/icons/icon.svg", type: "image/svg+xml" },
     ],
     apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180" }],
   },
@@ -48,12 +55,21 @@ export const metadata: Metadata = {
     description:
       "Pick a target. Your opponent races to find it. Every microsecond becomes your score.",
     type: "website",
+    images: [
+      {
+        url: "/brand/pata-logo-1024.png",
+        width: 1024,
+        height: 1024,
+        alt: "PATA — a 3x3 number board with the target tile lit up",
+      },
+    ],
   },
   twitter: {
     card: "summary",
     title: "PATA — Two-Player Number Hunt",
     description:
       "Pick a target. Your opponent races to find it. Every microsecond becomes your score.",
+    images: ["/brand/pata-logo-1024.png"],
   },
 };
 

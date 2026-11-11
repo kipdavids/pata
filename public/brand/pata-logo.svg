@@ -1,0 +1,36 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d2f26"/>
+      <stop offset="0.55" stop-color="#0a1014"/>
+      <stop offset="1" stop-color="#07070b"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#34d399" stop-opacity="0.42"/>
+      <stop offset="1" stop-color="#34d399" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="hot" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6ee7b7"/>
+      <stop offset="0.5" stop-color="#34d399"/>
+      <stop offset="1" stop-color="#22d3ee"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="113" fill="url(#bg)"/>
+  <circle cx="256" cy="256" r="241.25" fill="url(#halo)"/>
+  <rect x="70.00" y="70.00" width="108.95" height="108.95" rx="28.33" fill="rgba(255,255,255,0.055)" stroke="rgba(255,255,255,0.09)" stroke-width="1.71"/>
+  <rect x="201.52" y="70.00" width="108.95" height="108.95" rx="28.33" fill="rgba(255,255,255,0.055)" stroke="rgba(255,255,255,0.09)" stroke-width="1.71"/>
+  <rect x="333.05" y="70.00" width="108.95" height="108.95" rx="28.33" fill="rgba(255,255,255,0.055)" stroke="rgba(255,255,255,0.09)" stroke-width="1.71"/>
+  <rect x="70.00" y="201.52" width="108.95" height="108.95" rx="28.33" fill="rgba(255,255,255,0.055)" stroke="rgba(255,255,255,0.09)" stroke-width="1.71"/>
+  <rect x="333.05" y="201.52" width="108.95" height="108.95" rx="28.33" fill="rgba(255,255,255,0.055)" stroke="rgba(255,255,255,0.09)" stroke-width="1.71"/>
+  <rect x="70.00" y="333.05" width="108.95" height="108.95" rx="28.33" fill="rgba(255,255,255,0.055)" stroke="rgba(255,255,255,0.09)" stroke-width="1.71"/>
+  <rect x="201.52" y="333.05" width="108.95" height="108.95" rx="28.33" fill="rgba(255,255,255,0.055)" stroke="rgba(255,255,255,0.09)" stroke-width="1.71"/>
+  <rect x="333.05" y="333.05" width="108.95" height="108.95" rx="28.33" fill="rgba(255,255,255,0.055)" stroke="rgba(255,255,255,0.09)" stroke-width="1.71"/>
+  <g fill="none" stroke="#34d399" stroke-width="3.41" stroke-linecap="round" stroke-opacity="0.85">
+    <path d="M192.04423679999996 226.90938879999996V192.04423679999996H226.90938879999996"/>
+    <path d="M285.09061119999996 192.04423679999996H319.9557632V226.90938879999996"/>
+    <path d="M319.9557632 285.09061119999996V319.9557632H285.09061119999996"/>
+    <path d="M226.90938879999996 319.9557632H192.04423679999996V285.09061119999996"/>
+  </g>
+  <rect x="201.52" y="201.52" width="108.95" height="108.95" rx="28.33" fill="url(#hot)"/>
+  <rect x="220.05" y="220.05" width="71.91" height="71.91" rx="18.52" fill="none" stroke="#ecfdf5" stroke-opacity="0.92" stroke-width="5.33"/>
+</svg>
