@@ -76,12 +76,26 @@ Thanks for looking.
 
 ## Gallery captions
 
-1. `100 numbers, one board, two people.`
-2. `Pick a target. Watch them hunt it.`
-3. `Every microsecond becomes the other player's score.`
-4. `Send a link. No signup, no app store.`
-5. `Live reactions, sound and haptics — small stuff that makes it feel alive.`
-6. `Leaderboard, ranks and match history if you want to keep score.`
+Product Hunt shows up to 10 gallery images. Upload the files from
+`launch/gallery/` in this order:
+
+| # | File | Caption |
+| --- | --- | --- |
+| 1 | `01-lobby.png` | 100 numbers, one board, two people. |
+| 2 | `04-choose.png` | Pick a target. Watch them hunt it. |
+| 3 | `05-hunt.png` | Your opponent races to find it. |
+| 4 | `06-hunt-in-progress.png` | Every microsecond becomes the other player's score. |
+| 5 | `07-after-find.png` | The clock stops and the score lands. |
+| 6 | `08-result.png` | Five, ten or twenty turns each. Most points wins. |
+| 7 | `03-invite.png` | Send a link. No signup, no app store. |
+| 8 | `02-how-to-play.png` | The whole rulebook, one screen. |
+| 9 | `09-leaderboard.png` | Ranks, W-L records and match history. |
+| 10 | `10-phone-lobby.png` | Installs to the home screen. |
+
+Spare portrait shot: `11-phone-result.png`.
+
+The thumbnail is `public/brand/pata-logo-1024.png`. See `launch/README.md` for
+the full asset list and how to regenerate the screenshots.
 
 ---
 

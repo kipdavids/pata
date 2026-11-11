@@ -167,7 +167,9 @@ public/
   brand/                       upload-ready logo PNGs (Product Hunt, stores)
 supabase/schema.sql            database, functions, RLS, realtime
 scripts/generate-icons.mjs     icon generation
+scripts/shoot.mjs              launch screenshot capture (two browsers)
 scripts/e2e.mjs                two-player API end-to-end test
+launch/                        Product Hunt copy + gallery images
 ```
 
 ## Scripts
@@ -178,6 +180,7 @@ npm run build   # production build + type check
 npm run lint    # ESLint
 npm start       # run the production build
 npm run icons   # regenerate PWA icons
+npm run shots   # capture the launch gallery (needs npm start on :3100)
 npm run e2e     # two-player API test against BASE_URL (default :3100)
 ```
 
